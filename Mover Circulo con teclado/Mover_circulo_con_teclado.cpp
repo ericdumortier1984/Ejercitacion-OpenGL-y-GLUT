@@ -44,7 +44,7 @@ void Move(int _key, int x, int y)
 		break;
 		case GLUT_KEY_DOWN:
 			cout << "se mueve hacia abajo" << endl;
-		_y -= 5.f;
+		_y -= 0.1f;
 		break;
 	}
 	glutPostRedisplay();	
