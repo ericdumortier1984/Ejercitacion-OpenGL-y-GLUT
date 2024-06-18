@@ -18,7 +18,7 @@ void Display()
 	glBegin(GL_POLYGON);
 	for(int i = 0; i < 360; i++)
 	{
-d		float _angulo = i * 3.14159f / 180.0f;
+		float _angulo = i * 3.14159f / 180.0f;
 		glVertex2f(_x + _radio * cos(_angulo), _y + _radio * sin(_angulo));
 	}
 	glEnd();
