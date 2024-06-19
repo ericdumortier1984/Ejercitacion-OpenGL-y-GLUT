@@ -3,14 +3,37 @@
 # include <OpenGL/glu.h>
 # include <GLUT/glut.h>
 #include <iostream>
-#include <cmath>
 #else
 # include <GL/gl.h>
 # include <GL/glu.h>
 # include <GL/glut.h>
 #include <iostream>
-#include <cmath>
 #endif
+
+using namespace std;
+
+// Seguimiento del cursor para ver donde hacemos los vertices
+void PassiveMotion_cb(int x, int y)
+{
+	cout << x << "," << y << " \r" << flush;
+}
+
+void DrawStar()
+{
+	// Estrella en modo wireframe
+	glColor3f(1.5f,0.5f,0.f); // Color
+	glLineWidth(5); // Ancho
+	
+	glBegin(GL_LINE_STRIP); // Lineas que se cruzan
+	glVertex2i(180,100); // Diagonal izquierda a derecha
+	glVertex2i(100,200); // Diagonal izquierda a derecha (une)
+	glVertex2i(200,200); // Diagonal derecha a izquierda
+	glVertex2i(100,100); // Diagonal derecha a izquierda (une)
+	glVertex2i(150,250); // Diagonal central
+	glVertex2i(180,100); // Diagonal cenral (une)
+	
+	glEnd();
+}
 
 void Reshape_cb (int w, int h) 
 {
@@ -29,17 +52,8 @@ void Display_cb()
 {
 	// Limpia el buffer de color
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0f,0.0f,0.0f); 
-	glLineWidth(3);
-	glBegin(GL_LINE_LOOP);
-		for(int i = 0; i <= 360; i += 72)
-		{
-			glVertex2f(0.5 * cos(i * 3.14 / 180), 0.5 * sin(i * 3.14 / 180));
-			glVertex2f(0.0, 0.0);
-			glVertex2f(0.5 * cos((i + 36) * 3.14 / 180), 
-				0.5 * sin((i + 36) * 3.14 / 180));
-		}
-	glEnd();
+	// Dibuja la estrella
+	DrawStar();
 	// Intercambia los buffers (doble buffer)
 	glutSwapBuffers();
 }
@@ -51,15 +65,17 @@ void Initialize()
 	// Establece el tamaño de la ventana
 	glutInitWindowSize (800,600);
 	// Establece la posición inicial de la ventana
-	glutInitWindowPosition (50,50);
+	glutInitWindowPosition (100,100);
 	// Crea la ventana
 	glutCreateWindow ("Estrella con lineas");
+	// Lamada a función para seguir la posición del mouse
+	glutPassiveMotionFunc(PassiveMotion_cb);
 	// Establece la función de dibujo
 	glutDisplayFunc (Display_cb);
 	// Establece la función de redimensionamiento
 	glutReshapeFunc (Reshape_cb);
 	// Establecer el color de fondo
-	glClearColor(0.5f,0.5f,0.5f,1.f);
+	glClearColor(0.5f,0.5f,0.5f,0.5f);
 }
 
 int main (int argc, char **argv) 
